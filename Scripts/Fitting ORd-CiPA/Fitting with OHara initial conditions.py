@@ -6,10 +6,16 @@
 import sabs_pkpd
 import pints
 import numpy as np
+import os
 
+# Select the folder in which this repo is downloaded in the line below
+os.chdir('The/location/of/the/root/folder/of/this/repo')
+
+# Set the parallelisation of the script
+parallel = True
 
 # Load the MMT model for the O'Hara CiPA model
-filename = '/pstore/home/barraly/Codes/Gamma_0 impact on fitting/Ohara CiPA - algebraic voltage.mmt'
+filename = './Models/Ohara CiPA - algebraic voltage.mmt'
 s = sabs_pkpd.load_model.load_simulation_from_mmt(filename)
 s.set_tolerance(1e-08, 1e-08)
 default_state = s.state()
@@ -140,13 +146,10 @@ needs_sensitivities = False
 
 # Logging
 log_to_screen = True
-log_filename = '/pstore/home/barraly/Codes/Gamma_0 impact on fitting/OHara initial conditions.csv'
+log_filename = './Scripts/Fitting ORd-CiPA/OHara initial conditions.csv'
 log_csv = True
 message_interval = 20
 message_warm_up = 3
-
-# Parallelisation
-n_workers = pints.ParallelEvaluator.cpu_count()
 
 #
 # Stopping criteria
@@ -180,10 +183,11 @@ if needs_sensitivities:
     f = f.evaluateS1
 
 # Create evaluator object
-# For population based optimisers, don't use more workers than
-# particles!
-n_workers = min(n_workers, optimiser.population_size())
-evaluator = pints.ParallelEvaluator(f, n_workers=n_workers)
+if parallel:
+    n_workers = min(n_workers, optimiser.population_size())
+    evaluator = pints.ParallelEvaluator(f, n_workers=n_workers)
+else:
+    evaluator = pints.SequentialEvaluator(f)
 
 # Keep track of best position and score
 fbest = float('inf')
