@@ -61,6 +61,7 @@ desc: """
     PubMed ID: 16565318
     """
 # Initial values
+membrane.V      =  -84.9363053129017
 calcium.Ca_i    =  1.05782268600543037e-04
 calcium.Ca_sr   =  3.55567791655852350e+00
 calcium.Ca_ss   =  2.14172873269809840e-04
@@ -101,16 +102,25 @@ type = 1
 # Appendix to [3]
 #
 [membrane]
-c0 = 2.143551600695287
-    in [mM]
-V = phys.F/phys.Cm * phys.Vc * (potassium.K_i + sodium.Na_i + 2*calcium.Ca_i_tot + 2*calcium.V_sr/phys.Vc*calcium.Ca_sr_tot + 2*calcium.V_ss/phys.Vc*calcium.Ca_ss_tot - (extra.Ko + 2 * extra.Cao + extra.Nao) + c0)
+use stimulus.i_stim
+dot(V) = -(i_ion + i_stim + i_diff)
     in [mV]
     label membrane_potential
+i_ion = potassium.ItK + calcium.ItCa + sodium.ItNa
+    label cellular_current
+    in [A/F]
+i_diff = 0
+    bind diffusion_current
+    in [A/F]
 
 [drug]
-ikr_rescale = 1
-ical_rescale = 1
-ina_rescale = 1
+hERG_IC50 = 2100
+hERG_hill = 1
+CaV_IC50 = 5100
+CaV_hill = 1
+C = 0
+ikr_rescale = 1 / (1 + (C / hERG_IC50) ^ hERG_hill)
+ical_rescale = 1 / (1 + (C / CaV_IC50) ^ CaV_hill)
 
 #
 # Stimulus current
@@ -119,8 +129,7 @@ ina_rescale = 1
 #
 [stimulus]
 i_stim = amplitude * engine.pace
-    in [1]
-amplitude = -52 [A/F]
+    amplitude = -52 [A/F]
     
 #
 # Physical constants
@@ -133,9 +142,9 @@ R = 8.314472 [J/mol/K]
 T = 310 [K]
 RTF = R * T / F
 FTR = F / (R * T)
-FFTR = F * F / (R * T)
-Cm = 0.185 [nF]
-Vc = 16.404 [pL]
+FFTR = F * F / (R * T)*1000
+Cm = 0.185 [uF]
+Vc = 16.404 [uL]
 
 #
 # Reversal potentials
@@ -175,10 +184,10 @@ scale_tau_f = 1.0
 scale_cal = 1
 conductance_cal_compound = 1.0
 gCaL = conductance_cal_compound * drug.ical_rescale * scale_cal*3.98e-5 [mS/uF]
-ICaL = if(V == 15,
-        p1 * (p2 - p4) / p3,
+ICaL = if(abs(2 * (V - 15) / (phys.R * phys.T)) < 1e-7,
+        p1 * (p2 - p4) / p3 * (1 - (V-15) * phys.FTR),
         p1 * (V - 15) * (p2 * exp(p3 * (V - 15)) - p4) / (exp(p3 * (V - 15)) - 1))
-    p1 = gCaL * d * f * f2 * fCass * 4 * phys.FFTR * 1000
+    p1 = gCaL * d * f * f2 * fCass * 4 * phys.FFTR
     p2 = 0.25 * calcium.Ca_ss
     p3 = 2 * phys.FTR
     p4 = extra.Cao
@@ -436,22 +445,19 @@ V_sr = 1.094 [um^3]
 dot(Ca_i) = Ca_i_bufc * ((i_leak - i_up) * V_sr / phys.Vc + i_xfer - (ItCa - ical.ICaL) * phys.Cm / (2 * phys.Vc * phys.F))
     in [mM]
     Ca_i_bufc = 1 / (1 + Buf_c * K_buf_c / (Ca_i + K_buf_c) ^ 2)
-Buf_c = 0.2 [mM]
-K_buf_c = 0.001 [mM]
-Ca_i_tot = Ca_i + Ca_i*Buf_c/(Ca_i + K_buf_c)
+    Buf_c = 0.2 [mM]
+    K_buf_c = 0.001 [mM]
 dot(Ca_ss) = Ca_ss_bufss * (-ical.ICaL * phys.Cm / (2 * V_ss * phys.F) + i_rel * V_sr / V_ss - i_xfer * phys.Vc / V_ss)
     in [mM]
     Ca_ss_bufss = 1 / (1 + Buf_ss * K_buf_ss / (Ca_ss + K_buf_ss) ^ 2)
-Buf_ss = 0.4 [mM]
-K_buf_ss = 0.00025 [mM]
-V_ss = 5.468e-2 [um^3]
-Ca_ss_tot = Ca_ss + Ca_ss*Buf_ss/(Ca_ss + K_buf_ss)
+    Buf_ss = 0.4 [mM]
+    K_buf_ss = 0.00025 [mM]
+    V_ss = 5.468e-2 [um^3]
 dot(Ca_sr) = Ca_sr_bufsr * (i_up - (i_rel + i_leak))
     in [mM]
     Ca_sr_bufsr = 1 / (1 + Buf_sr * K_buf_sr / (Ca_sr + K_buf_sr) ^ 2)
-Buf_sr = 10 [mM]
-K_buf_sr = 0.3 [mM]
-Ca_sr_tot = Ca_sr + Ca_sr * Buf_sr / (Ca_sr + K_buf_sr)
+    Buf_sr = 10 [mM]
+    K_buf_sr = 0.3 [mM]
 K_up = 0.00025 [mM]
 kcasr = max_sr - (max_sr - min_sr) / (1 + (EC / Ca_sr) ^ 2)
 EC = 1.5 [mM]

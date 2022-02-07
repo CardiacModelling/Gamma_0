@@ -97,9 +97,9 @@ B_3 = membrane.frt
     in [1/mV]
 ICaK = (1 - ficalp) * PCaK * PhiCaK * d * (f * (1 - nca) + jca * fca * nca) + ficalp * PCaKp * PhiCaK * d * (fp * (1 - nca) + jca * fcap * nca)
     in [A/F]
-GCaL_rescale = 1.0
+rescale = 1.0
     in [1]
-ical = GCaL_rescale * ((1 - ficalp) * PCa * Phical * d * (f * (1 - nca) + jca * fca * nca) + ficalp * PCap * Phical * d * (fp * (1 - nca) + jca * fcap * nca))
+ical = rescale * ((1 - ficalp) * PCa * Phical * d * (f * (1 - nca) + jca * fca * nca) + ficalp * PCap * Phical * d * (fp * (1 - nca) + jca * fcap * nca))
     in [A/F]
 ICaNa = (1 - ficalp) * PCaNa * PhiCaNa * d * (f * (1 - nca) + jca * fca * nca) + ficalp * PCaNap * PhiCaNa * d * (fp * (1 - nca) + jca * fcap * nca)
     in [A/F]
@@ -297,15 +297,15 @@ D = 0
     in [1]
 GKr = piecewise(environment.celltype == 1, GKr_b * 1.3, environment.celltype == 2, GKr_b * 0.8, GKr_b)
     in [mS/uF]
-GKr_b =  4.65854545454545618e-2
+GKr_b =  4.65854545454545618e-2 * rescale * drug.ikr_rescale
     in [mS/uF]
-GKr_rescale = 1.0
-conductance_kr_compound = drug.ikr_rescale 
+rescale = 1.0
+    in [1]
 dot(IC1) = -(A11 * exp(B11 * membrane.V) * IC1 * exp((Temp - 20) * log(q11) / 10) - A21 * exp(B21 * membrane.V) * IC2 * exp((Temp - 20) * log(q21) / 10)) + A51 * exp(B51 * membrane.V) * C1 * exp((Temp - 20) * log(q51) / 10) - A61 * exp(B61 * membrane.V) * IC1 * exp((Temp - 20) * log(q61) / 10)
     in [1]
 dot(IC2) = A11 * exp(B11 * membrane.V) * IC1 * exp((Temp - 20) * log(q11) / 10) - A21 * exp(B21 * membrane.V) * IC2 * exp((Temp - 20) * log(q21) / 10) - (A3 * exp(B3 * membrane.V) * IC2 * exp((Temp - 20) * log(q3) / 10) - A4 * exp(B4 * membrane.V) * IO * exp((Temp - 20) * log(q4) / 10)) + A52 * exp(B52 * membrane.V) * C2 * exp((Temp - 20) * log(q52) / 10) - A62 * exp(B62 * membrane.V) * IC2 * exp((Temp - 20) * log(q62) / 10)
     in [1]
-ikr = GKr_rescale * conductance_kr_compound * GKr * sqrt(extracellular.ko / 5.4 [mM]) * O * (membrane.V - reversal_potentials.EK)
+ikr = GKr * sqrt(extracellular.ko / 5.4 [mM]) * O * (membrane.V - reversal_potentials.EK)
     in [A/F]
 dot(IO) = A3 * exp(B3 * membrane.V) * IC2 * exp((Temp - 20) * log(q3) / 10) - A4 * exp(B4 * membrane.V) * IO * exp((Temp - 20) * log(q4) / 10) + A53 * exp(B53 * membrane.V) * O * exp((Temp - 20) * log(q53) / 10) - A63 * exp(B63 * membrane.V) * IO * exp((Temp - 20) * log(q63) / 10) - (Kmax * Ku * exp(n * log(D)) / (exp(n * log(D)) + halfmax) * IO - Ku * A53 * exp(B53 * membrane.V) * exp((Temp - 20) * log(q53) / 10) / (A63 * exp(B63 * membrane.V) * exp((Temp - 20) * log(q63) / 10)) * IObound)
     in [1]
@@ -361,8 +361,10 @@ q63 = 5.682
 [IKs]
 GKs = piecewise(environment.celltype == 1, GKs_b * 1.4, GKs_b)
     in [mS/uF]
-GKs_b =  6.35800000000000080e-3
+GKs_b =  6.35800000000000080e-3 * rescale
     in [mS/uF]
+rescale = 1
+    in [1]
 IKs = GKs * KsCa * xs1 * xs2 * (membrane.V - reversal_potentials.EKs)
     in [A/F]
 KsCa = 1 + 0.6 / (1 + (3.8e-5 [mM] / intracellular_ions.cai) ^ 1.4)
@@ -387,8 +389,10 @@ Ahf = 0.99
     in [1]
 Ahs = 1 - Ahf
     in [1]
-GNa = 75 * drug.ina_rescale
+GNa = 75 * drug.ina_rescale * rescale
     in [mS/uF]
+rescale = 1.0
+    in[1]
 INa = GNa * (membrane.V - reversal_potentials.ENa) * m ^ 3 * ((1 - fINap) * h * j + fINap * hp * jp)
     in [A/F]
 fINap = 1 / (1 + CaMK.KmCaMK / CaMK.CaMKa)
@@ -725,8 +729,10 @@ x4 = b4 * b3 * b2 + a3 * a4 * a1 + b2 * a4 * a1 + b3 * b2 * a1
 [INaL]
 GNaL = piecewise(environment.celltype == 1, GNaL_b * 0.6, GNaL_b)
     in [mS/uF]
-GNaL_b =  1.99574999999999753e-2
+GNaL_b =  1.99574999999999753e-2 * rescale
     in [mS/uF]
+rescale = 1.0
+    in [1]
 INaL = GNaL * (membrane.V - reversal_potentials.ENa) * mL * ((1 - fINaLp) * hL + fINaLp * hLp)
     in [A/F]
 fINaLp = 1 / (1 + CaMK.KmCaMK / CaMK.CaMKa)
@@ -945,9 +951,9 @@ ffrt = physical_constants.F * frt
     in [s^4*A^2/g/m^2/mol]
 frt = physical_constants.F / (physical_constants.R * physical_constants.T)
     in [1/mV]
-c0 = 9.601116
+c0 = -7.801116
     in [mM]
-V = physical_constants.F * cell_geometry.vmyo / cell_geometry.Acap / intracellular_ions.cm * (intracellular_ions.tot_ki + intracellular_ions.tot_nai + 2 * intracellular_ions.tot_cass * cell_geometry.vss / cell_geometry.vmyo + 2 * intracellular_ions.tot_cai + 2 * intracellular_ions.cansr * cell_geometry.vnsr / cell_geometry.vmyo  + 2 * intracellular_ions.tot_cajsr * cell_geometry.vjsr / cell_geometry.vmyo - (extracellular.ko + 2 * extracellular.cao + extracellular.nao + c0))
+V = physical_constants.F * cell_geometry.vmyo / cell_geometry.Acap / intracellular_ions.cm * (intracellular_ions.tot_ki + intracellular_ions.tot_nai + 2 * intracellular_ions.tot_cass * cell_geometry.vss / cell_geometry.vmyo + 2 * intracellular_ions.tot_cai + 2 * intracellular_ions.cansr * cell_geometry.vnsr / cell_geometry.vmyo  + 2 * intracellular_ions.tot_cajsr * cell_geometry.vjsr / cell_geometry.vmyo - (extracellular.ko + 2 * extracellular.cao + extracellular.nao) + c0)
     in [mV]
     label membrane_potential
 Vfrt = V * frt
