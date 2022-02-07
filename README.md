@@ -25,9 +25,9 @@ For users who are new to Python, here are more details on how to install the Pyt
 2) In the installation process, install Spyder.
 3) Download the needed packages.
 4) Open the Anaconda prompt to install the packages.
-  a) Update pip: use the command ```pip install --upgrade pip --user```. The ```--user``` argument might not be needed if you have the admin rights for your session.
-  b) Navigate using the ```cd your_directory``` command to get to the location of the ```setup.py``` script of the downloaded library.
-  c) Install the package with the command ```pip install . -e --user```. Note that for the installation of Myokit, you need to have a C++ compiler installed. More details concerning the installation of Myokit can be found at http://myokit.org/install.
+  - Update pip: use the command ```pip install --upgrade pip --user```. The ```--user``` argument might not be needed if you have the admin rights for your session.
+  - Navigate using the ```cd your_directory``` command to get to the location of the ```setup.py``` script of the downloaded library.
+  - Install the package with the command ```pip install . -e --user```. Note that for the installation of Myokit, you need to have a C++ compiler installed. More details concerning the installation of Myokit can be found at http://myokit.org/install.
 5)
 
 ## Note concerning the reproduction of the fitting of the ORd-CiPA model
