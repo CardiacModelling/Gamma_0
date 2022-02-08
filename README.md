@@ -1,6 +1,6 @@
 # A parameter representing missing charge should be considered when calibrating action potential models
 
-This GitHub repo was design to facilitate the reproduction of the results published in the paper linked to this GitHub.
+This GitHub repo was design to facilitate the reproduction of the results published in the paper linked to this GitHub. The Python scripts are in the ```Scripts``` folder. Their names designate which figure or result can be reproduced with them.
 
 ## List of Python packages necessary for the reproduction of this work
 To be able to run the Python scripts, one needs to have installed:
