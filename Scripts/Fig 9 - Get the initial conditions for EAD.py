@@ -90,11 +90,11 @@ original_nai = compute(Gamma_0_for_EADs)
 
 
 # In[Plot results]
-plt.figure(figsize = (12, 8))
-plt.plot(high_nai, label = 'Initial $[Na^+]_i = 15 mM$', linewidth = 5, color = 'k')
+plt.figure(figsize = (16, 8))
+plt.plot(high_nai[50:], label = 'Initial [Na$^+]_i = 15$ mM', linewidth = 5, color = 'k')
 #plt.plot(low_nai, label = 'Low initial Nai', linewidth = 3)
-plt.plot(original_nai, label = 'Initial $[Na^+]_i = 7.3 mM$', linewidth = 5)
-plt.legend(fontsize = 26)
+plt.plot(original_nai[50:], label = 'Initial [Na$^+]_i = 7.3$ mM', linewidth = 5)
+plt.legend(fontsize = 26, bbox_to_anchor=(1.1, 0.5))
 plt.xlabel('Time (ms)', fontsize = 29)
 plt.ylabel('Voltage (mV)', fontsize = 29)
 plt.xticks([0, 500, 1000, 1500, 2000], [0, 500, 1000, 1500, 2000], fontsize = 26)
