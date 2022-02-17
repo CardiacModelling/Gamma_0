@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import os
 
 # Select the folder in which this repo is downloaded in the line below
-os.chdir('C:/Users/barraly/Downloads/initial_conditions_study-master/initial_conditions_study-master')
+os.chdir('The/location/of/the/root/folder/of/this/repo')
 
 
 # In[Load the model]
