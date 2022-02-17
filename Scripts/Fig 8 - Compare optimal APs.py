@@ -164,6 +164,7 @@ APD90 = sabs_pkpd.cardiac.compute_APD(AP = fitting_with_TT06_ICs_gamma_0_Kr_bloc
 print('APD_90 after 50% IKr block : ' + str(APD90))
 
 
+
 # In[Plot the comparison]
 def place_caption_label(ax, label, loc='upper left', fontsize=35):
     from matplotlib.offsetbox import AnchoredText
@@ -177,13 +178,13 @@ fig, ax = plt.subplots(1, 2, figsize=[15, 7])
 size_ticks = 22
 size_labels = 25
 # Shift x-axis so that AP starts at 0 ms (in the simulations, the stimulus fires at t=50 ms)
-x = np.linspace(0, 599, 600)
+x = np.linspace(-50, 599, 650)
 
 # Plot the fitted APs
-ax[0].plot(x, data_to_fit[50:650], label = 'Data to fit', color = 'k', linewidth = 5)
-ax[0].plot(x, fitting_with_Ohara_ICs[50:650], label = 'Fitting #1', linestyle = '--', linewidth = 3)
-ax[0].plot(x, fitting_with_TT06_ICs[50:650], label = 'Fitting #2', linestyle = '--', linewidth = 3)
-ax[0].plot(x, fitting_with_TT06_ICs_gamma_0[50:650], label = 'Fitting #3', linestyle = '--', linewidth = 3)
+ax[0].plot(x, data_to_fit[:650], label = 'Data to fit', color = 'k', linewidth = 5)
+ax[0].plot(x, fitting_with_Ohara_ICs[:650], label = 'Fitting #1', linestyle = '--', linewidth = 3)
+ax[0].plot(x, fitting_with_TT06_ICs[:650], label = 'Fitting #2', linestyle = '--', linewidth = 3)
+ax[0].plot(x, fitting_with_TT06_ICs_gamma_0[:650], label = 'Fitting #3', linestyle = '--', linewidth = 3)
 
 ax[0].legend(fontsize = 25)
 ax[0].set_xlabel('Time (ms)', fontsize = size_labels)
@@ -206,10 +207,10 @@ axins1.tick_params(axis = 'both', labelsize = 15)
 
 
 # Plot the predicted APs with Kr block
-ax[1].plot(x, validation_data[50:650], label = 'Validation data', linestyle = '-', linewidth = 5, color = 'k')
-ax[1].plot(x, fitting_with_Ohara_ICs_Kr_blocked[50:650], label = 'Prediction #1', linestyle = '-', linewidth = 3)
-ax[1].plot(x, fitting_with_TT06_ICs_Kr_blocked[50:650], label = 'Prediction #2', linestyle = '-', linewidth = 3)
-ax[1].plot(x, fitting_with_TT06_ICs_gamma_0_Kr_blocked[50:650], label = 'Prediction #3', linestyle = '-', linewidth = 3)
+ax[1].plot(x, validation_data[:650], label = 'Validation data', linestyle = '-', linewidth = 5, color = 'k')
+ax[1].plot(x, fitting_with_Ohara_ICs_Kr_blocked[:650], label = 'Prediction #1', linestyle = '-', linewidth = 3)
+ax[1].plot(x, fitting_with_TT06_ICs_Kr_blocked[:650], label = 'Prediction #2', linestyle = '-', linewidth = 3)
+ax[1].plot(x, fitting_with_TT06_ICs_gamma_0_Kr_blocked[:650], label = 'Prediction #3', linestyle = '-', linewidth = 3)
 
 ax[1].legend(fontsize = 25, loc = 'upper right')
 ax[1].set_xlabel('Time (ms)', fontsize = size_labels)
@@ -234,6 +235,9 @@ axins2.tick_params(axis = 'both', labelsize = 15)
 # Save
 plt.tight_layout()
 plt.savefig('./Figures/Comparison of optimal APs.png', dpi = 300)
+
+
+
 
 
 
