@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import os
 
 # Select the folder in which this repo is downloaded in the line below
-os.chdir('The/location/of/the/root/folder/of/this/repo')
+os.chdir('C:/Users/barraly/Downloads/initial_conditions_study-master/initial_conditions_study-master')
 
 
 # In[Load the model]
@@ -68,12 +68,6 @@ def compute(Gamma_0):
     return np.array(out['membrane.V'])
 
 
-# In[Compute the fitted data]
-# Run the model with the published original initial conditions and the Gamma_0 value associated with it
-Gamma_0_for_fitting = -7.80116
-data_to_fit = compute(Gamma_0_for_fitting)
-
-
 # In[Reuse the fitting instructions]
 # Define the time points on which to read the voltage
 time_points = np.linspace(0, 999, 1000)
@@ -81,6 +75,19 @@ time_points = np.linspace(0, 999, 1000)
 # Define the fitted parameters and initial point
 parameters_to_fit = ['ical.rescale', 'ikr.rescale', 'IKs.rescale', 'INa.rescale', 'INaL.rescale']
 true_values = np.array([1, 1, 1, 1, 1])
+
+
+# In[Compute the fitted data]
+# Set the parameters values
+for p, label in enumerate(parameters_to_fit):
+    s.set_constant(label, true_values[p])
+# Run the model with the published original initial conditions and the Gamma_0 value associated with it
+Gamma_0_for_fitting = -7.80116
+data_to_fit = compute(Gamma_0_for_fitting)
+
+# For validation with 50% IKr inhibition
+s.set_constant(parameters_to_fit[1], 0.5 * true_values[1])
+validation_data = compute(Gamma_0_for_fitting)
 
 
 # In[Report the results from the fitting with Ohara initial conditions]
@@ -169,13 +176,14 @@ fig, ax = plt.subplots(1, 2, figsize=[15, 7])
 
 size_ticks = 22
 size_labels = 25
+# Shift x-axis so that AP starts at 0 ms (in the simulations, the stimulus fires at t=50 ms)
 x = np.linspace(0, 599, 600)
 
 # Plot the fitted APs
-ax[0].plot(x, data_to_fit[:600], label = 'Data to fit', color = 'k', linewidth = 5)
-ax[0].plot(x, fitting_with_Ohara_ICs[:600], label = 'Fitting #1', linestyle = '--', linewidth = 3)
-ax[0].plot(x, fitting_with_TT06_ICs[:600], label = 'Fitting #2', linestyle = '--', linewidth = 3)
-ax[0].plot(x, fitting_with_TT06_ICs_gamma_0[:600], label = 'Fitting #3', linestyle = '--', linewidth = 3)
+ax[0].plot(x, data_to_fit[50:650], label = 'Data to fit', color = 'k', linewidth = 5)
+ax[0].plot(x, fitting_with_Ohara_ICs[50:650], label = 'Fitting #1', linestyle = '--', linewidth = 3)
+ax[0].plot(x, fitting_with_TT06_ICs[50:650], label = 'Fitting #2', linestyle = '--', linewidth = 3)
+ax[0].plot(x, fitting_with_TT06_ICs_gamma_0[50:650], label = 'Fitting #3', linestyle = '--', linewidth = 3)
 
 ax[0].legend(fontsize = 25)
 ax[0].set_xlabel('Time (ms)', fontsize = size_labels)
@@ -185,7 +193,7 @@ place_caption_label(ax[0], 'A', 'lower right')
 
 # Add an inset to zoom into the short pacing periods
 axins1 = ax[0].inset_axes(bounds = [0.7, 0.2, 0.3, 0.3])
-x_inset = np.linspace(320, 349, 30)
+x_inset = np.linspace(270, 299, 30)
 
 axins1.plot(x_inset, data_to_fit[320:350], color = 'k', linewidth = 5)
 axins1.plot(x_inset, fitting_with_Ohara_ICs[320:350], linestyle = '--', linewidth = 3)
@@ -193,14 +201,15 @@ axins1.plot(x_inset, fitting_with_TT06_ICs[320:350], linestyle = '--', linewidth
 axins1.plot(x_inset, fitting_with_TT06_ICs_gamma_0[320:350], linestyle = '--', linewidth = 3)
 
 # set up the inset ticks
-axins1.set_xticks([320, 335, 350])
+axins1.set_xticks([270, 285, 300])
 axins1.tick_params(axis = 'both', labelsize = 15)
 
 
 # Plot the predicted APs with Kr block
-ax[1].plot(x, fitting_with_Ohara_ICs_Kr_blocked[:600], label = 'Prediction #1', linestyle = '-', linewidth = 3)
-ax[1].plot(x, fitting_with_TT06_ICs_Kr_blocked[:600], label = 'Prediction #2', linestyle = '-', linewidth = 3)
-ax[1].plot(x, fitting_with_TT06_ICs_gamma_0_Kr_blocked[:600], label = 'Prediction #3', linestyle = '-', linewidth = 3)
+ax[1].plot(x, validation_data[50:650], label = 'Validation data', linestyle = '-', linewidth = 5, color = 'k')
+ax[1].plot(x, fitting_with_Ohara_ICs_Kr_blocked[50:650], label = 'Prediction #1', linestyle = '-', linewidth = 3)
+ax[1].plot(x, fitting_with_TT06_ICs_Kr_blocked[50:650], label = 'Prediction #2', linestyle = '-', linewidth = 3)
+ax[1].plot(x, fitting_with_TT06_ICs_gamma_0_Kr_blocked[50:650], label = 'Prediction #3', linestyle = '-', linewidth = 3)
 
 ax[1].legend(fontsize = 25, loc = 'upper right')
 ax[1].set_xlabel('Time (ms)', fontsize = size_labels)
@@ -211,14 +220,15 @@ place_caption_label(ax[1], 'B', 'lower right')
 
 # Add an inset to zoom into the short pacing periods
 axins2 = ax[1].inset_axes(bounds = [0.7, 0.2, 0.3, 0.3])
-x_inset = np.linspace(425, 474, 50)
+x_inset = np.linspace(375, 424, 50)
 
-axins2.plot(x_inset, fitting_with_Ohara_ICs_Kr_blocked[425:475], linestyle = '--', linewidth = 3)
-axins2.plot(x_inset, fitting_with_TT06_ICs_Kr_blocked[425:475], linestyle = '--', linewidth = 3)
-axins2.plot(x_inset, fitting_with_TT06_ICs_gamma_0_Kr_blocked[425:475], linestyle = '--', linewidth = 3)
+axins2.plot(x_inset, validation_data[425:475], linestyle = '-', linewidth = 5, color = 'k')
+axins2.plot(x_inset, fitting_with_Ohara_ICs_Kr_blocked[425:475], linestyle = '-', linewidth = 3)
+axins2.plot(x_inset, fitting_with_TT06_ICs_Kr_blocked[425:475], linestyle = '-', linewidth = 3)
+axins2.plot(x_inset, fitting_with_TT06_ICs_gamma_0_Kr_blocked[425:475], linestyle = '-', linewidth = 3)
 
 # set up the inset ticks
-axins2.set_xticks([425, 450, 475])
+axins2.set_xticks([375, 400, 425])
 axins2.tick_params(axis = 'both', labelsize = 15)
 
 # Save
