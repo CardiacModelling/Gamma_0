@@ -148,6 +148,7 @@ print('APD_90 at 95% IKr block : ' + str(APD90))
 print('Diastolic K+ (95% IKr block) : ' + str(s.state()[3]))
 
 
+
 # In[Plot the comparison]
 def place_caption_label(ax, label, loc='upper left', fontsize=35):
     from matplotlib.offsetbox import AnchoredText
@@ -158,8 +159,8 @@ def place_caption_label(ax, label, loc='upper left', fontsize=35):
 fig, ax = plt.subplots(1, 2, figsize = (16, 8))
 
 # Plot the training quality with Kr block
-ax[0].plot(np.linspace(0, 949, 950), data_block[50:], label = 'True model', color = 'k', linewidth = 5)
-ax[0].plot(np.linspace(0, 949, 950), fitted_block[50:], label = 'Fitted model', linestyle = '-', linewidth = 5)
+ax[0].plot(np.linspace(-50, 949, 1000), data_block, label = 'True model', color = 'k', linewidth = 5)
+ax[0].plot(np.linspace(-50, 949, 1000), fitted_block, label = 'Fitted model', linestyle = '-', linewidth = 5)
 
 # Labels
 ax[0].legend(fontsize = 20, loc= 'upper right')
@@ -170,8 +171,8 @@ place_caption_label(ax[0], 'A', loc='lower right', fontsize=35)
 ax[0].text(x=800, y = -10, s = 'Model\ntraining', ha='center', fontsize = 40)
 
 # Plot the fitted APs
-ax[1].plot(np.linspace(0, 499, 500), data[50:550], label = 'True model, baseline AP', color = 'k', linewidth = 5)
-ax[1].plot(np.linspace(0, 499, 500), fitted[50:550], label = 'Fitted model, baseline AP', linestyle = '-', linewidth = 5)
+ax[1].plot(np.linspace(-50, 499, 550), data[:550], label = 'True model, baseline AP', color = 'k', linewidth = 5)
+ax[1].plot(np.linspace(-50, 499, 550), fitted[:550], label = 'Fitted model, baseline AP', linestyle = '-', linewidth = 5)
 
 ax[1].set_xlabel('Time (ms)', fontsize = 28)
 ax[1].set_ylabel('Voltage (mV)', fontsize = 28)
