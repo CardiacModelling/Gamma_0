@@ -181,7 +181,7 @@ def plot_hyperplane(plane, ax):
     return None
 
 
-# In[Plot the results for TT06
+# In[Plot the results for TT06]
 # Prepare the colorscale
     
 viridis = cm.get_cmap('Spectral_r', 500)
@@ -209,24 +209,24 @@ for plane in range(first_point, nb_planes + last_point + 1):
 Ki_proj = Ki_calc(G0s[last_point], states[last_point, last_point, 3], 0, states[last_point, last_point, 1], states[last_point, last_point, 2])
 points =  np.array([[Ki_proj, states[last_point, last_point, 3], 0], [Ki_proj, states[last_point, last_point, 3], states[last_point, last_point, 0]]])
 ax.plot(points[:, 0], points[:, 1], points[:, 2],
-        linewidth = 3, color = col(nb_planes + last_point), LineStyle = '--')
+        linewidth = 3, color = col(nb_planes + last_point), linestyle = '--')
 Ki_proj = Ki_calc(G0s[first_point], states[first_point, first_point, 3], 0, states[first_point, first_point, 1], states[first_point, first_point, 2])
 points =  np.array([[Ki_proj, states[first_point, 0, 3], 0], [Ki_proj, states[first_point, 0, 3], states[first_point, 0, 0]]])
 ax.plot(points[:, 0], points[:, 1], points[:, 2],
-        linewidth = 3, color = col(first_point), LineStyle = '--')
+        linewidth = 3, color = col(first_point), linestyle = '--')
 
 # Horizontal
 Ki_high = Ki_calc(G0s[last_point], 0, states[last_point, last_point, 0], states[last_point, last_point, 1], states[last_point, last_point, 2])
 Nai_high = Ki_calc(G0s[last_point], 120, states[last_point, last_point, 0], states[last_point, last_point, 1], states[last_point, last_point, 2])
 points =  np.array([[120, Nai_high, states[last_point, last_point, 0]], [Ki_high, 0, states[last_point, last_point, 0]]])
 ax.plot(points[:, 0], points[:, 1], points[:, 2],
-        linewidth = 3, color = col(nb_planes + last_point), LineStyle = '--')
+        linewidth = 3, color = col(nb_planes + last_point), linestyle = '--')
 
 Ki_high = Ki_calc(G0s[first_point], 16, states[first_point, first_point, 0], states[first_point, first_point, 1], states[first_point, first_point, 2])
 Nai_high = Ki_calc(G0s[first_point], 150, states[first_point, first_point, 0], states[first_point, first_point, 1], states[first_point, first_point, 2])
 points =  np.array([[150, Nai_high, states[first_point, first_point, 0]], [Ki_high, 16, states[first_point, first_point, 0]]])
 ax.plot(points[:, 0], points[:, 1], points[:, 2], 
-        linewidth = 3, color = col(first_point), LineStyle = '--')
+        linewidth = 3, color = col(first_point), linestyle = '--')
 
 # Tick the Ca2+ axis in uM
 ax.set_zticks(np.linspace(0, 0.00014, 3))
@@ -242,6 +242,7 @@ ax.view_init(elev=20, azim=-160)
 ax.set_xlim([120, 150])
 ax.set_ylim([0, 16])
 ax.set_zlim([0, 1.5e-04])
+
 
 
 
