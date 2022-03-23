@@ -15,7 +15,7 @@ import matplotlib.cm as cm
 import os
 
 # Select the folder in which this repo is downloaded in the line below
-os.chdir('C:/Users/barraly/Downloads/Gamma_0-main/Gamma_0-main')
+os.chdir('The/location/of/the/root/folder/of/this/repo')
 
 
 # In[Load the models]
