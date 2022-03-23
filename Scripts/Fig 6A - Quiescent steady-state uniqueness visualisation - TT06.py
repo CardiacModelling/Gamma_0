@@ -12,45 +12,21 @@ import matplotlib.axes
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.colors as colors
 import matplotlib.cm as cm
+import os
+
+# Select the folder in which this repo is downloaded in the line below
+os.chdir('C:/Users/barraly/Downloads/Gamma_0-main/Gamma_0-main')
 
 
 # In[Load the models]
-s = sabs_pkpd.load_model.load_simulation_from_mmt('C:/Users/barraly/Documents/PhD/Sensitivity to initial conditions/tentusscher_2006 - analytical voltage - paper.mmt')
-s1 = sabs_pkpd.load_model.load_simulation_from_mmt('C:/Users/barraly/Documents/PhD/Sensitivity to initial conditions/Quiescent steady-state reaching/tentusscher_2006 - analytical voltage - quiescent steady-state.mmt')
+s = sabs_pkpd.load_model.load_simulation_from_mmt('./Models/tentusscher_2006 - analytical voltage.mmt')
 default = s.state()
-default1 = s1.state()
 
 # Set solver tolerance to fine
 s.set_tolerance(abs_tol=1e-08, rel_tol = 1e-08)
-s1.set_tolerance(abs_tol=1e-08, rel_tol = 1e-08)
 
 # Set no pacing for the full model
 s.set_constant('stimulus.amplitude', 0)
-
-
-# In[Check that the both models run to the same steady-state]
-# Reset the simulation
-s.set_state(default)
-s.set_time(0)
-s1.set_state(default1)
-s1.set_time(0)
-
-# Run the simulation to stead-state
-convergence = s.run(5000000)
-convergence1 = s1.run(5000000)
-
-# Plot the convergence towards equilibrium
-fig = plt.figure(figsize = (13, 13))
-ax = fig.add_subplot(111, projection='3d')
-ax.plot(convergence['potassium.K_i'], convergence['sodium.Na_i'], convergence['calcium.Ca_i'], linewidth = 3, label = 'Full model')
-ax.plot(convergence1['potassium.K_i'], convergence1['sodium.Na_i'], convergence1['calcium.Ca_i'], linewidth = 3, label = 'Reduced model')
-
-ax.view_init(elev=20, azim=-160)
-ax.set_xlabel('$[K^+]_i$ (mM)', fontsize = 30, labelpad = 15)
-ax.set_ylabel('$[Na^+]_i$ (mM)', fontsize = 30, labelpad = 15)
-ax.set_zlabel('$[Ca^{2+}]_i$', fontsize = 30, labelpad = 15)
-
-plt.legend(fontsize = 25) 
 
 
 # In[For TT06]
@@ -72,11 +48,11 @@ def sample_hyperplane(G0, nb_points_per_axis = 15):
     
     for i in range(nb_points_per_axis):
         # Cai
-        points[nb_points_per_axis * i:nb_points_per_axis * (i+1), 0] = np.linspace(0.5, 1.5, nb_points_per_axis) * default1[0]
+        points[nb_points_per_axis * i:nb_points_per_axis * (i+1), 0] = np.linspace(0.5, 1.5, nb_points_per_axis) * default[0]
         #Casr
-        points[nb_points_per_axis * i:nb_points_per_axis * (i+1), 1] = np.random.uniform(0.5, 1.5, size = nb_points_per_axis) * default1[1]
+        points[nb_points_per_axis * i:nb_points_per_axis * (i+1), 1] = np.random.uniform(0.5, 1.5, size = nb_points_per_axis) * default[1]
         #Cass
-        points[nb_points_per_axis * i:nb_points_per_axis * (i+1), 2] = np.random.uniform(0.5, 1.5, size = nb_points_per_axis) * default1[2]
+        points[nb_points_per_axis * i:nb_points_per_axis * (i+1), 2] = np.random.uniform(0.5, 1.5, size = nb_points_per_axis) * default[2]
         # Nais to be sampled from the physiological range of concentrations
         points[nb_points_per_axis * i:nb_points_per_axis * (i+1), 3] = np.linspace(4, 16, nb_points_per_axis)
     
@@ -94,11 +70,22 @@ def sample_hyperplane(G0, nb_points_per_axis = 15):
 # a given starting point
 def run_sim(concs):
     # Set the default state to match with the input and reset
-    s1.set_default_state(concs)
-    s1.reset()
+    init = default.copy()
+    init[0] = concs[0]
+    init[1] = concs[1]
+    init[2] = concs[2]
+    init[4] = concs[3]
+    init[5] = concs[4]
+    
+    # Set non-concentrations state variables to random
+    init[3] = np.random.uniform(0.0000001, 0.999999)
+    init[6:] = np.random.uniform(0.0000001, 0.999999, size = 12)
+    
+    s.set_default_state(init)
+    s.reset()
 
     # Run to steady-state wihtout pacing
-    run_sim = s1.run(4000001, log=['potassium.K_i', 'sodium.Na_i', 'membrane.V', 'calcium.Ca_i', 'calcium.Ca_sr', 'calcium.Ca_ss'], log_times = [0, 4000000])
+    run_sim = s.run(4000001, log=['potassium.K_i', 'sodium.Na_i', 'membrane.V', 'calcium.Ca_i', 'calcium.Ca_sr', 'calcium.Ca_ss'], log_times = [0, 4000000])
     
     return run_sim
 
@@ -112,8 +99,6 @@ def Ki_calc(G0, Nai, Cai, Casr, Cass, V = -85.3, extraK = 5.4, extraNa = 140,
     Cass_tot = Cass + Cass * 0.4 / (Cass + 0.00025)
     Ki = extraK + extraNa + 2 * extraCa - G0 + V / 96.4853415 * 0.185 / 16.404 - (Nai + 2*Cai_tot  + 2*0.001094/0.016404*Casr_tot + 2*5.468e-5/0.016404*Cass_tot)
     return Ki
-
-#G0 = G0_calc(Ki = default1[4], Nai = default1[3], Cai = default1[0], Casr = default1[1], Cass = default1[2], V = -85.3)
 
 # Set G0 values to explore
 nb_planes = 10
@@ -130,7 +115,7 @@ for plane in range(nb_planes):
     G0 = G0s[plane]
     
     # Set G0 in the simulation
-    s1.set_constant('membrane.c0', G0)
+    s.set_constant('membrane.c0', G0)
     
     # Compute the initial conditions to cover the hyperplanes
     samples[plane, :, :] = sample_hyperplane(G0, nb_points_per_axis)
