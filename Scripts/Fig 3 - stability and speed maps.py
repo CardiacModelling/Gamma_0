@@ -37,42 +37,6 @@ derivative_ORd = sabs_pkpd.load_model.load_simulation_from_mmt('./Models/OHara C
 readout_ORd = 'intracellular_ions.ki'
 
 
-# In[Try different solver tolerances and plot evolution of state]
-solver_tolerances = [1e-09, 1e-08, 1e-07, 1e-06, 1e-05]
-
-# Run the model to paced limit cycle with the various solver tolerances
-for tol in solver_tolerances:
-    # Run the analytical model to limit cycle
-    analytic.reset()
-    analytic.set_tolerance(abs_tol = 1e-08, rel_tol = tol)
-    an = analytic.run(3000000, log_interval = 1000)
-
-    # Run the derivative model to limit cycle
-    derivative.reset()
-    derivative.set_tolerance(abs_tol = 1e-07, rel_tol = tol)
-    der = derivative.run(3000000, log_interval = 1000)
-    
-    # Plot the convergence to limit cycle and stability after the 2000th pace
-    plt.figure(figsize = (15, 10))
-    plt.subplot(1, 2, 1)
-    plt.plot(np.linspace(0, 3000, 3000), an[readout], label = 'Analytical')
-    plt.plot(np.linspace(0, 3000, 3000), der[readout], label = 'Derivative')
-    plt.legend(fontsize = 15)
-    plt.xlabel('# Paces', fontsize = 17)
-    plt.ylabel('$K_i$ (mM)', fontsize = 17)
-    plt.title('Solver tolerance : ' + str(tol), fontsize = 24)
-    
-    plt.subplot(1, 2, 2)
-    plt.plot(np.linspace(2000, 3000, 1000), an[readout][2000:], label = 'Analytical')
-    plt.plot(np.linspace(2000, 3000, 1000), der[readout][2000:], label = 'Derivative')
-    plt.legend(fontsize = 15)
-    plt.xlabel('# Paces', fontsize = 17)
-    plt.ylabel('$K_i$ (mM)', fontsize = 17)
-    plt.title('Solver tolerance : ' + str(tol), fontsize = 24)
-    
-    plt.tight_layout()
-    
-
 # In[Try different solver tolerances]
 def maps(analytic, derivative, readout):
     solver_tolerances = [1e-09, 1e-08, 1e-07, 1e-06, 1e-05]
