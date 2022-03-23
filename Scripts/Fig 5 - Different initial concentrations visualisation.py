@@ -124,9 +124,9 @@ a1 = s1.run(1000, log_interval = 1)
 
 
 # In[Plot the resulting APs]
-def place_caption_label(ax, label, loc='upper left', Fontsize=35):
+def place_caption_label(ax, label, loc='upper left', fontsize=35):
     from matplotlib.offsetbox import AnchoredText
-    at = AnchoredText(label, loc=loc, prop=dict(size=Fontsize), frameon=True, borderpad = 0)
+    at = AnchoredText(label, loc=loc, prop=dict(size=fontsize), frameon=True, borderpad = 0)
     ax.add_artist(at)    
     return None
 
@@ -139,21 +139,21 @@ width = 3
 
 # Plot the results for TTP06
 index = 0
-ax[index].plot(a['membrane.V'], label = '$\Gamma_0 = $' + str(np.round(TT06_maxi_G0, decimals = 1)) + ' mM', LineWidth = width, color = color_low_Ki)
-ax[index].plot(a1['membrane.V'], label = '$\Gamma_0 = $' + str(np.round(TT06_mini_G0, decimals = 1)) + ' mM', LineWidth = width, color = color_high_Ki)
-ax[index].set_xlabel('Time (ms)', Fontsize = size_labels)
-ax[index].set_ylabel('Voltage (mV)', Fontsize = size_labels)
+ax[index].plot(a['membrane.V'], label = '$\Gamma_0 = $' + str(np.round(TT06_maxi_G0, decimals = 1)) + ' mM', linewidth = width, color = color_low_Ki)
+ax[index].plot(a1['membrane.V'], label = '$\Gamma_0 = $' + str(np.round(TT06_mini_G0, decimals = 1)) + ' mM', linewidth = width, color = color_high_Ki)
+ax[index].set_xlabel('Time (ms)', fontsize = size_labels)
+ax[index].set_ylabel('Voltage (mV)', fontsize = size_labels)
 ax[index].legend(fontsize = size_legends)
-place_caption_label(ax[index], 'A', loc = 'lower right', Fontsize = 25)
+place_caption_label(ax[index], 'A', loc = 'lower right', fontsize = 25)
 
 # Plot the results for ORd CiPA
 index = 1
-ax[index].plot(a2['membrane.V'], label = '$\Gamma_0 = $' + str(np.round(ORd_maxi_G0, decimals = 1)) + ' mM', LineWidth = width, color = color_low_Ki)
-ax[index].plot(a3['membrane.V'], label = '$\Gamma_0 = $' + str(np.round(ORd_mini_G0, decimals = 1)) + ' mM', LineWidth = width, color = color_high_Ki)
-ax[index].set_xlabel('Time (ms)', Fontsize = size_labels)
-ax[index].set_ylabel('Voltage (mV)', Fontsize = size_labels)
+ax[index].plot(a2['membrane.V'], label = '$\Gamma_0 = $' + str(np.round(ORd_maxi_G0, decimals = 1)) + ' mM', linewidth = width, color = color_low_Ki)
+ax[index].plot(a3['membrane.V'], label = '$\Gamma_0 = $' + str(np.round(ORd_mini_G0, decimals = 1)) + ' mM', linewidth = width, color = color_high_Ki)
+ax[index].set_xlabel('Time (ms)', fontsize = size_labels)
+ax[index].set_ylabel('Voltage (mV)', fontsize = size_labels)
 ax[index].legend(fontsize = size_legends)
-place_caption_label(ax[index], 'B', loc = 'lower right', Fontsize = 25)
+place_caption_label(ax[index], 'B', loc = 'lower right', fontsize = 25)
 
 plt.tight_layout()
 plt.savefig('./Figures/APs_Gamma_0.png', dpi = 300)
