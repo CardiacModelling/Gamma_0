@@ -27,30 +27,6 @@ default = s.state()
 s.set_tolerance(abs_tol=1e-08, rel_tol = 1e-08)
 
 
-# In[Check that the model is close to steady-state]
-# Reset the simulation
-s.set_state(default)
-s.set_time(0)
-
-# Run the simulation to stead-state
-convergence = s.run(2000000)
-steady = s.run(1000)
-
-# Plot the limit cycle
-plt.figure(figsize = (7, 7))
-plt.ticklabel_format(style='plain')
-plt.plot(steady['environment.time'], steady['membrane.V'])
-plt.xlabel('Time (ms)', fontsize  = 20)
-plt.ylabel('Voltage (mV)', fontsize = 20)
-
-
-# Plot the convergence towards equilibrium
-plt.figure(figsize = (7, 7))
-plt.plot(convergence['environment.time'], convergence['intracellular_ions.ki'])
-plt.ylabel('$[K^+]_i$ (mM)', fontsize = 20)
-plt.xlabel('Time (ms)', fontsize = 20)
-
-
 # In[For ORd CiPA]
 # Define the functions to compute G0 and Ki from the other variables
 def G0_calc(Ki = 144.65559, Kss = 144.65556, Nai = 7.2680045, Nass = 7.26809,
@@ -247,10 +223,10 @@ for plane in range(first_point, nb_planes + last_point + 1):
 # Vertical
 points =  np.array([[states[last_point, last_point, 2], states[last_point, last_point, 0], 0], [states[last_point, last_point, 2], states[last_point, last_point, 0], states[last_point, last_point, 4]]])
 ax.plot(points[:, 0], points[:, 1], points[:, 2],
-           linewidth = 3, color = col(nb_planes + last_point), LineStyle = '--')
+           linewidth = 3, color = col(nb_planes + last_point), linestyle = '--')
 points =  np.array([[states[first_point, 0, 2], states[first_point, 0, 0], 0], [states[first_point, 0, 2], states[first_point, 0, 0], states[first_point, 0, 4]]])
 ax.plot(points[:, 0], points[:, 1], points[:, 2],
-           linewidth = 3, color = col(first_point), LineStyle = '--')
+           linewidth = 3, color = col(first_point), linestyle = '--')
 
 # Horizontal
 Ki_high = Ki_calc(G0s[last_point],
@@ -271,7 +247,7 @@ Nai_high = Ki_calc(G0s[last_point],
 points =  np.array([[120, Nai_high, states[last_point, last_point, 4]], [Ki_high, 0, states[last_point, last_point, 4]]])
 
 ax.plot(points[:, 0], points[:, 1], points[:, 2],
-        linewidth = 3, color = col(nb_planes + last_point), LineStyle = '--')
+        linewidth = 3, color = col(nb_planes + last_point), linestyle = '--')
 
 Ki_high = Ki_calc(G0s[first_point],
                   Nai = 16, 
@@ -290,7 +266,7 @@ Nai_high = Ki_calc(G0s[first_point],
 points =  np.array([[150, Nai_high, states[first_point, first_point, 4]], [Ki_high, 16, states[first_point, first_point, 4]]])
 
 ax.plot(points[:, 0], points[:, 1], points[:, 2], 
-        linewidth = 3, color = col(first_point), LineStyle = '--')
+        linewidth = 3, color = col(first_point), linestyle = '--')
 
 
 # Set Ca2+ ticks
