@@ -144,9 +144,9 @@ ORd_high_Ki = np.loadtxt('./WebLab results/Restitution ORd CiPA high Ki.csv',
 
 
 # In[Plot Results]
-def place_caption_label(ax, label, loc='upper left', Fontsize=35):
+def place_caption_label(ax, label, loc='upper left', fontsize=35):
     from matplotlib.offsetbox import AnchoredText
-    at = AnchoredText(label, loc=loc, prop=dict(size=Fontsize), frameon=True, borderpad = 0)
+    at = AnchoredText(label, loc=loc, prop=dict(size=fontsize), frameon=True, borderpad = 0)
     ax.add_artist(at)    
     return None
 
@@ -164,60 +164,60 @@ color_high_Ki = 'darkgreen'
 label_low = '$\Gamma_0$ = ' + str(np.round(G0_low_TT, decimals = 1)) + ' mM'
 label_high = '$\Gamma_0$ = ' + str(np.round(G0_high_TT, decimals = 1)) + ' mM'
 
-ax[0, 0].plot(a1['ik1.IK1'], LineWidth = 4, color = color_high_Ki, label = label_high)
-ax[0, 0].plot(a['ik1.IK1'], LineWidth = 4, color = color_low_Ki, label = label_low)
-ax[0, 0].set_xlabel('Time (ms)', Fontsize = size_labels)
-ax[0, 0].set_ylabel('$I_{K1}$ (pA/pF)', Fontsize = size_labels)
+ax[0, 0].plot(a1['ik1.IK1'], linewidth = 4, color = color_high_Ki, label = label_high)
+ax[0, 0].plot(a['ik1.IK1'], linewidth = 4, color = color_low_Ki, label = label_low)
+ax[0, 0].set_xlabel('Time (ms)', fontsize = size_labels)
+ax[0, 0].set_ylabel('$I_{K1}$ (pA/pF)', fontsize = size_labels)
 ax[0, 0].set_xticks([0, 250, 500, 750, 1000])
 ax[0, 0].set_xticklabels([0, 250, 500, 750, 1000])
 ax[0, 0].tick_params(labelsize = size_ticks)
-place_caption_label(ax[0, 0], 'A', loc='upper right', Fontsize=25)
+place_caption_label(ax[0, 0], 'A', loc='upper right', fontsize=25)
 
-ax[0, 1].plot(a1['inak.INaK'], LineWidth = 4, color = color_high_Ki)
-ax[0, 1].plot(a['inak.INaK'], LineWidth = 4, color = color_low_Ki)
-ax[0, 1].set_xlabel('Time (ms)', Fontsize = size_labels)
-ax[0, 1].set_ylabel('$I_{NaK}$ (pA/pF)', Fontsize = size_labels)
+ax[0, 1].plot(a1['inak.INaK'], linewidth = 4, color = color_high_Ki)
+ax[0, 1].plot(a['inak.INaK'], linewidth = 4, color = color_low_Ki)
+ax[0, 1].set_xlabel('Time (ms)', fontsize = size_labels)
+ax[0, 1].set_ylabel('$I_{NaK}$ (pA/pF)', fontsize = size_labels)
 ax[0, 1].set_xticks([0, 250, 500, 750, 1000])
 ax[0, 1].set_xticklabels([0, 250, 500, 750, 1000])
 ax[0, 1].tick_params(labelsize = size_ticks)
-place_caption_label(ax[0, 1], 'B', loc='upper right', Fontsize=25)
+place_caption_label(ax[0, 1], 'B', loc='upper right', fontsize=25)
 
-ax[0, 2].plot(a1['membrane.V'], LineWidth = 4, color = color_high_Ki, label = label_high)
-ax[0, 2].plot(a['membrane.V'], LineWidth = 4, color = color_low_Ki, label = label_low)
-ax[0, 2].set_xlabel('Time (ms)', Fontsize = size_labels)
-ax[0, 2].set_ylabel('Voltage (mV)', Fontsize = size_labels)
+ax[0, 2].plot(a1['membrane.V'], linewidth = 4, color = color_high_Ki, label = label_high)
+ax[0, 2].plot(a['membrane.V'], linewidth = 4, color = color_low_Ki, label = label_low)
+ax[0, 2].set_xlabel('Time (ms)', fontsize = size_labels)
+ax[0, 2].set_ylabel('Voltage (mV)', fontsize = size_labels)
 ax[0, 2].set_xticks([0, 250, 500, 750, 1000])
 ax[0, 2].set_xticklabels([0, 250, 500, 750, 1000])
 ax[0, 2].tick_params(labelsize = size_ticks)
-place_caption_label(ax[0, 2], 'C', loc='upper right', Fontsize=25)
+place_caption_label(ax[0, 2], 'C', loc='upper right', fontsize=25)
 
 # Plot restitution portrait for TTP06
 ax[0, 3].plot(TT06_low_Ki[:, 0], TT06_low_Ki[:, 1], color = 'orange', 
-         LineWidth = 4)
-ax[0, 3].plot(TT06_low_Ki[:, 0], TT06_low_Ki[:, 2], color = 'orange', LineWidth = 4,
+         linewidth = 4)
+ax[0, 3].plot(TT06_low_Ki[:, 0], TT06_low_Ki[:, 2], color = 'orange', linewidth = 4,
          label = label_low)
 
-ax[0, 3].plot(TT06_high_Ki[:, 0], TT06_high_Ki[:, 1], color = 'darkgreen', LineWidth = 4)
+ax[0, 3].plot(TT06_high_Ki[:, 0], TT06_high_Ki[:, 1], color = 'darkgreen', linewidth = 4)
 ax[0, 3].plot(TT06_high_Ki[:, 0], TT06_high_Ki[:, 2], color = 'darkgreen',
-         LineWidth = 4, label = label_high)
+         linewidth = 4, label = label_high)
 
 # Set Figure labels and legend
-ax[0, 3].set_ylabel('$APD_{90} (ms)$', Fontsize = size_labels)
-ax[0, 3].set_xlabel('Pacing period (ms)', Fontsize = size_labels)
+ax[0, 3].set_ylabel('$APD_{90} (ms)$', fontsize = size_labels)
+ax[0, 3].set_xlabel('Pacing period (ms)', fontsize = size_labels)
 ax[0, 3].set_xticks([250, 500, 1000, 1500, 2000])
 ax[0, 3].set_xticklabels([250, '  500', 1000, 1500, 2000])
 ax[0, 3].tick_params(labelsize = size_ticks)
-place_caption_label(ax[0, 3], 'D', loc='upper right', Fontsize=25)
+place_caption_label(ax[0, 3], 'D', loc='upper right', fontsize=25)
 
 # Add an inset to zoom into the short pacing periods
 axins1 = inset_axes(ax[0, 3], width="50%", height="50%", loc=4, borderpad=2.5)
 
-axins1.plot(TT06_high_Ki[:, 0], TT06_high_Ki[:, 1], color = 'darkgreen', LineWidth = 4)
+axins1.plot(TT06_high_Ki[:, 0], TT06_high_Ki[:, 1], color = 'darkgreen', linewidth = 4)
 axins1.plot(TT06_high_Ki[:, 0], TT06_high_Ki[:, 2], color = 'darkgreen',
-         LineWidth = 4, label = label_high)
+         linewidth = 4, label = label_high)
 axins1.plot(TT06_low_Ki[:, 0], TT06_low_Ki[:, 1], color = 'orange', 
-         LineWidth = 4)
-axins1.plot(TT06_low_Ki[:, 0], TT06_low_Ki[:, 2], color = 'orange', LineWidth = 4,
+         linewidth = 4)
+axins1.plot(TT06_low_Ki[:, 0], TT06_low_Ki[:, 2], color = 'orange', linewidth = 4,
          label = label_low)
 
 # set up the inset
@@ -228,8 +228,8 @@ axins1.set_ylim(200, 275)
 
 # Add the legend
 ax[0, 4].axis('off')
-ax[0, 4].plot([], [], color = 'darkgreen', LineWidth = 4, label = label_high)
-ax[0, 4].plot([], [], color = 'orange', LineWidth = 4, label = label_low)
+ax[0, 4].plot([], [], color = 'darkgreen', linewidth = 4, label = label_high)
+ax[0, 4].plot([], [], color = 'orange', linewidth = 4, label = label_low)
 ax[0, 4].legend(fontsize = 17, loc = 'center left', bbox_to_anchor=(-2,0.5))
 
 
@@ -238,64 +238,64 @@ ax[0, 4].legend(fontsize = 17, loc = 'center left', bbox_to_anchor=(-2,0.5))
 label_low = '$\Gamma_0$ = ' + str(np.round(G0_low_ORd, decimals = 1)) + ' mM'
 label_high = '$\Gamma_0$ = ' + str(np.round(G0_high_ORd, decimals = 1)) + ' mM'
 
-ax[1, 0].plot(a3['IK1.IK1'], LineWidth = 4, color = color_high_Ki)
-ax[1, 0].plot(a2['IK1.IK1'], LineWidth = 4, color = color_low_Ki)
-ax[1, 0].set_xlabel('Time (ms)', Fontsize = size_labels)
-ax[1, 0].set_ylabel('$I_{K1}$ (pA/pF)', Fontsize = size_labels)
+ax[1, 0].plot(a3['IK1.IK1'], linewidth = 4, color = color_high_Ki)
+ax[1, 0].plot(a2['IK1.IK1'], linewidth = 4, color = color_low_Ki)
+ax[1, 0].set_xlabel('Time (ms)', fontsize = size_labels)
+ax[1, 0].set_ylabel('$I_{K1}$ (pA/pF)', fontsize = size_labels)
 ax[1, 0].set_xticks([0, 250, 500, 750, 1000])
 ax[1, 0].set_xticklabels([0, 250, 500, 750, 1000])
 ax[1, 0].tick_params(labelsize = size_ticks)
-place_caption_label(ax[1, 0], 'E', loc='upper right', Fontsize=25)
+place_caption_label(ax[1, 0], 'E', loc='upper right', fontsize=25)
 
-ax[1, 1].plot(a3['INaK.INaK'], LineWidth = 4, color = color_high_Ki)
-ax[1, 1].plot(a2['INaK.INaK'], LineWidth = 4, color = color_low_Ki)
-ax[1, 1].set_xlabel('Time (ms)', Fontsize = size_labels)
-ax[1, 1].set_ylabel('$I_{NaK}$ (pA/pF)', Fontsize = size_labels)
+ax[1, 1].plot(a3['INaK.INaK'], linewidth = 4, color = color_high_Ki)
+ax[1, 1].plot(a2['INaK.INaK'], linewidth = 4, color = color_low_Ki)
+ax[1, 1].set_xlabel('Time (ms)', fontsize = size_labels)
+ax[1, 1].set_ylabel('$I_{NaK}$ (pA/pF)', fontsize = size_labels)
 ax[1, 1].set_xticks([0, 250, 500, 750, 1000])
 ax[1, 1].set_xticklabels([0, 250, 500, 750, 1000])
 ax[1, 1].tick_params(labelsize = size_ticks)
-place_caption_label(ax[1, 1], 'F', loc='upper right', Fontsize=25)
+place_caption_label(ax[1, 1], 'F', loc='upper right', fontsize=25)
 
-ax[1, 2].plot(a3['membrane.V'], LineWidth = 4, color = color_high_Ki)
-ax[1, 2].plot(a2['membrane.V'], LineWidth = 4, color = color_low_Ki)
-ax[1, 2].set_xlabel('Time (ms)', Fontsize = size_labels)
-ax[1, 2].set_ylabel('Voltage (mV)', Fontsize = size_labels)
+ax[1, 2].plot(a3['membrane.V'], linewidth = 4, color = color_high_Ki)
+ax[1, 2].plot(a2['membrane.V'], linewidth = 4, color = color_low_Ki)
+ax[1, 2].set_xlabel('Time (ms)', fontsize = size_labels)
+ax[1, 2].set_ylabel('Voltage (mV)', fontsize = size_labels)
 ax[1, 2].set_xticks([0, 250, 500, 750, 1000])
 ax[1, 2].set_xticklabels([0, 250, 500, 750, 1000])
 ax[1, 2].tick_params(labelsize = size_ticks)
-place_caption_label(ax[1, 2], 'G', loc='upper right', Fontsize=25)
+place_caption_label(ax[1, 2], 'G', loc='upper right', fontsize=25)
 
 
 # Plot restitution portrait for ORd CiPA
 ax[1, 3].plot(ORd_low_Ki[:, 0], ORd_low_Ki[:, 1], color = 'orange', 
-         LineWidth = 4)
-ax[1, 3].plot(ORd_low_Ki[:, 0], ORd_low_Ki[:, 2], color = 'orange', LineWidth = 4,
+         linewidth = 4)
+ax[1, 3].plot(ORd_low_Ki[:, 0], ORd_low_Ki[:, 2], color = 'orange', linewidth = 4,
          label = label_low)
 
-ax[1, 3].plot(ORd_high_Ki[:, 0], ORd_high_Ki[:, 1], color = 'darkgreen', LineWidth = 4)
+ax[1, 3].plot(ORd_high_Ki[:, 0], ORd_high_Ki[:, 1], color = 'darkgreen', linewidth = 4)
 ax[1, 3].plot(ORd_high_Ki[:, 0], ORd_high_Ki[:, 2], color = 'darkgreen',
-         LineWidth = 4, label = label_high)
+         linewidth = 4, label = label_high)
 
 # Set up the labels and legend
-ax[1, 3].set_ylabel('$APD_{90} (ms)$', Fontsize = size_labels)
-ax[1, 3].set_xlabel('Pacing period (ms)', Fontsize = size_labels)
+ax[1, 3].set_ylabel('$APD_{90} (ms)$', fontsize = size_labels)
+ax[1, 3].set_xlabel('Pacing period (ms)', fontsize = size_labels)
 ax[1, 3].set_xticks([250, 500, 1000, 1500, 2000])
 ax[1, 3].set_xticklabels([250, '  500', 1000, 1500, 2000])
 ax[1, 3].tick_params(labelsize = size_ticks)
 #ax[1, 3].legend(fontsize = 25, loc = 'upper left')
-place_caption_label(ax[1, 3], 'H', loc='upper right', Fontsize=25)
+place_caption_label(ax[1, 3], 'H', loc='upper right', fontsize=25)
 
 # Add an inset to zoom into the short pacing periods
 axins2 = inset_axes(ax[1, 3], width="50%", height="50%", loc=4, borderpad=2.5)
 
 axins2.plot(ORd_low_Ki[:, 0], ORd_low_Ki[:, 1], color = 'orange', 
-         LineWidth = 4)
-axins2.plot(ORd_low_Ki[:, 0], ORd_low_Ki[:, 2], color = 'orange', LineWidth = 4,
+         linewidth = 4)
+axins2.plot(ORd_low_Ki[:, 0], ORd_low_Ki[:, 2], color = 'orange', linewidth = 4,
          label = label_low)
 
-axins2.plot(ORd_high_Ki[:, 0], ORd_high_Ki[:, 1], color = 'darkgreen', LineWidth = 4)
+axins2.plot(ORd_high_Ki[:, 0], ORd_high_Ki[:, 1], color = 'darkgreen', linewidth = 4)
 axins2.plot(ORd_high_Ki[:, 0], ORd_high_Ki[:, 2], color = 'darkgreen',
-         LineWidth = 4, label = label_high)
+         linewidth = 4, label = label_high)
 
 # set up the inset
 axins2.set_xticks([250, 500, 1000, 1500, 2000])
@@ -305,9 +305,10 @@ axins2.set_ylim(180, 220)
 
 # Add the legend
 ax[1, 4].axis('off')
-ax[1, 4].plot([], [], color = 'darkgreen', LineWidth = 4, label = label_high)
-ax[1, 4].plot([], [], color = 'orange', LineWidth = 4, label = label_low)
+ax[1, 4].plot([], [], color = 'darkgreen', linewidth = 4, label = label_high)
+ax[1, 4].plot([], [], color = 'orange', linewidth = 4, label = label_low)
 ax[1, 4].legend(fontsize = 17, loc = 'center left', bbox_to_anchor=(-2,0.5))
 
 plt.tight_layout()
 plt.savefig('./Figures/outputs_and_Gamma_0.png', dpi = 300)
+
