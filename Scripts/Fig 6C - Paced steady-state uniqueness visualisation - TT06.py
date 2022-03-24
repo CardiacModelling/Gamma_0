@@ -26,19 +26,6 @@ default = s.state()
 s.set_tolerance(abs_tol=1e-08, rel_tol = 1e-08)
 
 
-# In[Check that the both models run to the same steady-state]
-# Reset the simulation
-s.set_state(default)
-s.set_time(0)
-
-# Run the simulation to steady-state
-convergence = s.run(2000000, log_interval = 1000)
-
-# Plot the convergence towards equilibrium
-fig = plt.figure(figsize = (13, 13))
-plt.plot(convergence['potassium.K_i'], LineWidth = 3)
-
-
 # In[For TT06]
 # Define the functions to compute G0 and Ki from the other variables
 
@@ -196,7 +183,7 @@ def plot_hyperplane(plane, ax):
     return None
 
 
-# In[Plot the results for TT06
+# In[Plot the results for TT06]
 # Prepare the colorscale
     
 viridis = cm.get_cmap('Spectral_r', 500)
@@ -216,30 +203,30 @@ for plane in range(first_point, nb_planes + last_point + 1):
     # Plot the steady-state points in the plot range
     for sample in range(nb_points):
         ax.scatter(states[plane, sample, 4], states[plane, sample, 3], states[plane, sample, 0],
-                   LineWidth = 5, color = col(plane))
+                   linewidth = 5, color = col(plane))
     
     
 # Add the projections on both axes for the extremes
 # Vertical
 points =  np.array([[states[last_point, last_point, 4], states[last_point, last_point, 3], 0], [states[last_point, last_point, 4], states[last_point, last_point, 3], states[last_point, last_point, 0]]])
 ax.plot(points[:, 0], points[:, 1], points[:, 2],
-        LineWidth = 3, color = col(nb_planes + last_point), LineStyle = '--')
+        linewidth = 3, color = col(nb_planes + last_point), linestyle = '--')
 points =  np.array([[states[first_point, 0, 4], states[first_point, 0, 3], 0], [states[first_point, 0, 4], states[first_point, 0, 3], states[first_point, 0, 0]]])
 ax.plot(points[:, 0], points[:, 1], points[:, 2],
-        LineWidth = 3, color = col(first_point), LineStyle = '--')
+        linewidth = 3, color = col(first_point), linestyle = '--')
 
 # Horizontal
 Ki_high = Ki_calc(G0s[last_point], 0, states[last_point, last_point, 0], states[last_point, last_point, 1], states[last_point, last_point, 2])
 Nai_high = Ki_calc(G0s[last_point], 120, states[last_point, last_point, 0], states[last_point, last_point, 1], states[last_point, last_point, 2])
 points =  np.array([[120, Nai_high, states[last_point, last_point, 0]], [Ki_high, 0, states[last_point, last_point, 0]]])
 ax.plot(points[:, 0], points[:, 1], points[:, 2],
-        LineWidth = 3, color = col(nb_planes + last_point), LineStyle = '--')
+        linewidth = 3, color = col(nb_planes + last_point), linestyle = '--')
 
 Ki_high = Ki_calc(G0s[first_point], 16, states[first_point, first_point, 0], states[first_point, first_point, 1], states[first_point, first_point, 2])
 Nai_high = Ki_calc(G0s[first_point], 150, states[first_point, first_point, 0], states[first_point, first_point, 1], states[first_point, first_point, 2])
 points =  np.array([[150, Nai_high, states[first_point, first_point, 0]], [Ki_high, 16, states[first_point, first_point, 0]]])
 ax.plot(points[:, 0], points[:, 1], points[:, 2], 
-        LineWidth = 3, color = col(first_point), LineStyle = '--')
+        linewidth = 3, color = col(first_point), linestyle = '--')
 
 # Set Ca2+ ticks
 ax.set_zticks(np.linspace(0, 0.00014, 3))
@@ -247,15 +234,12 @@ ax.set_zticklabels(np.linspace(0, 0.14, 3))
 
 ax.view_init(elev=20, azim=-160)
 ax.tick_params(axis='both', labelsize= 23)
-ax.set_xlabel('$[K^+]_i$ (mM)', Fontsize = 35, labelpad = 25)
-ax.set_ylabel('$[Na^+]_i$ (mM)', Fontsize = 35, labelpad = 25)
-ax.set_zlabel('$[Ca^{2+}]_i (\mu M)$', Fontsize = 35, labelpad = 25)
+ax.set_xlabel('$[K^+]_i$ (mM)', fontsize = 35, labelpad = 25)
+ax.set_ylabel('$[Na^+]_i$ (mM)', fontsize = 35, labelpad = 25)
+ax.set_zlabel('$[Ca^{2+}]_i (\mu M)$', fontsize = 35, labelpad = 25)
 
 #ax.ticklabel_format(style='sci', axis='z', scilimits=(0,0), useOffset=False)
 ax.set_xlim([120, 150])
 ax.set_ylim([0, 16])
 ax.set_zlim([0, 1.5e-04])
-
-
-
 
