@@ -1,0 +1,32 @@
+name: env_test_gamma_0
+channels:
+  - defaults
+dependencies:
+  - ca-certificates=2022.3.18=haa95532_0
+  - certifi=2021.10.8=py37haa95532_2
+  - openssl=1.1.1n=h2bbff1b_0
+  - python=3.7.4=h5263a28_0
+  - setuptools=58.0.4=py37haa95532_0
+  - sqlite=3.38.0=h2bbff1b_0
+  - vc=14.2=h21ff451_1
+  - vs2015_runtime=14.27.29016=h5e58377_2
+  - wheel=0.37.1=pyhd3eb1b0_0
+  - wincertstore=0.2=py37haa95532_2
+  - pip:
+    - cma==3.2.2
+    - configparser==5.2.0
+    - cycler==0.11.0
+    - kiwisolver==1.4.2
+    - lxml==4.8.0
+    - matplotlib==3.5.1
+    - pillow==9.0.1
+    - pints==0.4.0
+    - pip==22.0.4
+    - pyparsing==3.0.7
+    - python-dateutil==2.8.2
+    - six==1.16.0
+    - tabulate==0.8.9
+    - threadpoolctl==3.1.0
+    - typing-extensions==4.1.1
+prefix: C:\Users\barraly\AppData\Local\Continuum\anaconda3\envs\env_test_gamma_0
+
