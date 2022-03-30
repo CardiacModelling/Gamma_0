@@ -5,7 +5,7 @@ This GitHub repo was design to facilitate the reproduction of the results publis
 ## List of Python packages necessary for the reproduction of this work
 To be able to run the Python scripts, one needs to have installed:
   - Python v3.7.4 or later version 
-  - Myokit v1.30.2: https://github.com/MichaelClerx/myokit 
+  - Myokit v1.33.2: https://github.com/MichaelClerx/myokit 
   Myokit: A simple interface to cardiac cellular electrophysiology Michael Clerx, Pieter Collins, Enno de Lange, Paul   G.A. Volders 2016 Progress in Biophysics and Molecular Biology Volume 120, issues 1-3, pages 100-114, 
   doi:  10.1016/j.pbiomolbio.2015.12.008
  
@@ -15,6 +15,8 @@ To be able to run the Python scripts, one needs to have installed:
   Use the classic ```pip install --upgrade matplotlib``` command to install the latest version.
   
 All the scripts that were used to generate the figures in the present article can be found in the ```Scripts``` folder. To reproduce the figures, 1) download the repository, 2) in the scripts, change the working directory to the folder where the repository is located, 3) run the code !
+
+Note that the virtual environment saved in the Gamma_0.yml file on this GitHub repository contains the necessary librairies to reproduce our results.
 
 ## Note for new Python users
 For users who are new to Python, here are more details on how to install the Python packages and run the scripts.
