@@ -1,10 +1,9 @@
 # A parameter representing missing charge should be considered when calibrating action potential models
 
-This code is associated with the paper:  
- * Barral et al. "A parameter representing missing charge should be considered when calibrating action potential models"  
-  *Frontiers in Physiology*, 2022. [doi:10.3389/fphys.2022.879035](https://dx.doi.org/10.3389/fphys.2022.879035).
-  
-If you use the code in further academic work please cite this paper.
+This code is associated with the paper:
+ * Barral et al. "A parameter representing missing charge should be considered when calibrating action potential models" [10.3389/fphys.2022.879035](https://doi.org/10.3389/fphys.2022.879035).
+   
+To cite this work, please use the information in the [CITATION file](./CITATION).
 
 This GitHub repo was design to facilitate the reproduction of the results published in the paper linked to this GitHub. The Python scripts are in the ```Scripts``` folder. Their names designate which figure or result can be reproduced with them.
 

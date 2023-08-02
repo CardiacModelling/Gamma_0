@@ -1,0 +1,15 @@
+To cite this work, please use:
+
+Barral, Y. S. H., Shuttleworth, J. G., Clerx, M., Whittaker, D. G., Wang, K., Polonchuk, L., Gavaghan, D. G. & Mirams, G. R. (2022). A parameter representing missing charge should be considered when calibrating action potential models. Frontiers in Physiology, 13, 879035.
+
+A BibTeX entry for LaTeX users is
+
+@article{barral2022parameter,
+  title={A parameter representing missing charge should be considered when calibrating action potential models},
+  author={Barral, Yann-Stanislas HM and Shuttleworth, Joseph G and Clerx, Michael and Whittaker, Dominic G and Wang, Ken and Polonchuk, Liudmila and Gavaghan, David J and Mirams, Gary R},
+  journal={Frontiers in Physiology},
+  volume={13},
+  pages={879035},
+  year={2022},
+  publisher={Frontiers}
+}
